@@ -1,34 +1,25 @@
 {% extends "index.html" %}
 {% block content %}
-    <h5>test login args : {{ content.test }}</h5>
-    <form id="login-form" action="" method="post" name="login">
-        {{ content.form.hidden_tag() }}
-        <p>
-            OpenID: {{ content.form.openid(size=50) }}
-            {% for error in content.form.openid.errors %}
-                <span class="error-alert">[{{ error }}]</span>
-            {% endfor %}<br>
-            |{% for pr in content.providers %}
-            <a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');">{{ pr.name }}</a> |
-            {% endfor %}
-        </p>
-        <span>{{ content.form.remember_me() }} Remember Me?</span>
-        <input type="submit" value="Log_in">
-    </form>
-{% endblock content %}
+<form action="" method=post class="form-horizontal">
+    <h2>Log-in to FlaskLogin(Test) Application </h2>
+    <div class="control-group">
+        <div class="controls">
+            <input type="text" id="username" name="username" class="input-xlarge"
+                   placeholder="Enter Username" required>
+        </div>
+    </div>
 
-{% block script %}
-<script type="text/javascript">
-    function set_openid(openid, pr)
-    {
-        u = openid.search('<username>')
-        if (u != -1) {
-            // openid requires username
-            user = prompt('Enter your ' + pr + ' username:')
-            openid = openid.substr(0, u) + user
-        }
-        form = document.forms['login'];
-        form.elements['openid'].value = openid
-    }
-</script>
-{% endblock script %}
+    <div class="control-group">
+        <div class="controls">
+            <input type="password" id="password" name="password" class="input-xlarge"
+                   placeholder="Enter Password" required>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-success">Log-in</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
