@@ -1,33 +1,17 @@
 from app import *
-from models import User
+from .form import LoginForm
 
 global_user= None
 static_args= {
     'creator':'Marco',
-    'latest':'1.2',
+    'latest':'1.3',
     'versions':[
-        {'number':'1.0', 'date':'06-02-2016'},
-        {'number':'1.1', 'date':'07-02-2016'},
-        {'number':'1.2', 'date':'07-02-2016'}
+        {'number':'1.0', 'date':'06-02-2016', 'comment':'init'},
+        {'number':'1.1', 'date':'07-02-2016', 'comment':'Added file structure and basic "Hello Word"'},
+        {'number':'1.2', 'date':'07-02-2016', 'comment':'Added template and Template logic'},
+        {'number':'1.3', 'date':'07-02-2016', 'comment':'Added flask-WTF'}
     ]
 }
-
-@login_manager.request_loader
-def load_user(request):
-    global global_user
-    token = request.headers.get('Authorization')
-    if token is None:
-        token = request.args.get('token')
-
-    if token is not None:
-        username,password = token.split(":")
-        user_entry = User.get(username)
-        if (user_entry is not None):
-            user = User(user_entry[0],user_entry[1])
-            if (user.password == password):
-                global_user = user
-                return user
-    return None
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
@@ -37,11 +21,19 @@ def index():
                            title='(__hello word__)',
                            args=args), 200
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     args = static_args
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        flash('Login requested for OpenID="%s", remember_me=%s' %
+              (form.openid.data, str(form.remember_me.data)))
+        return redirect('/index')
     content = {
-        'test':'Testo con questo Testo il mio Test'
+        'test':'Testo con questo Testo il mio Test',
+        'form':form,
+        'providers':app.config['OPENID_PROVIDERS']
     }
     return render_template('login.html',
                            args=args,

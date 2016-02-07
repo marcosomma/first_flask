@@ -1,9 +1,9 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    {% if args.title %}
-        <title>{{args.title}}</title>
-    {% endif %}
+
+        <title>{% if title %}{{title}}{% else %}NO TITLE!!{% endif %}</title>
+
 </head>
 <body>
     <h1>Hello Word V {{args.latest}}</h1>
@@ -11,10 +11,14 @@
     <ul class="versions">
         <span>versions: </span>
     {% for version in args.versions %}
-        <li>>> {{version.number}} || Relesed: {{version.date}} << </li>
+        <li>>> {{version.number}} || Relesed: {{version.date}} << Comment: "{{version.comment}}" </li>
     {% endfor %}
     </ul>
     {% block content %}
+    <a href="/login/">Log In</a>
     {% endblock content %}
+
+    {% block script %}
+    {% endblock script %}
 </body>
 </html>
