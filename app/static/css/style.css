@@ -1,0 +1,11 @@
+body {
+  font-family: monospace;
+}
+body .versions span {
+  font-weight: bold;
+  font-size: smaller;
+}
+body .versions li {
+  font-size: x-small;
+  display: block;
+}

@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 
 from flask.ext.login import LoginManager, UserMixin, login_required
 

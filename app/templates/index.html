@@ -1,0 +1,20 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    {% if args.title %}
+        <title>{{args.title}}</title>
+    {% endif %}
+</head>
+<body>
+    <h1>Hello Word V {{args.latest}}</h1>
+    <h3>created by {{args.creator}}</h3>
+    <ul class="versions">
+        <span>versions: </span>
+    {% for version in args.versions %}
+        <li>>> {{version.number}} || Relesed: {{version.date}} << </li>
+    {% endfor %}
+    </ul>
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>
