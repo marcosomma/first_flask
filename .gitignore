@@ -43,6 +43,8 @@ htmlcov/
 .coverage.*
 .cache
 .idea
+*.db
+db_repository
 nosetests.xml
 coverage.xml
 *,cover

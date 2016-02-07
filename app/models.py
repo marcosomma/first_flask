@@ -1,15 +1,27 @@
-from app import UserMixin
+from app import db
 
-class User(UserMixin):
-    user_database = {"MarcoSomma": ("Marco", "Somma"),
-                     "Test1Test": ("Test1", "11234"),
-                     "Test2Test": ("Test2", "12234"),
-                     "Test3Test": ("Test3", "12334")}
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
 
-    def __init__(self, username, password):
-        self.id = username
-        self.password = password
+    @property
+    def is_authenticated(self):
+        return True
 
-    @classmethod
-    def get(cls,id):
-        return cls.user_database.get(id)
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        try:
+            return unicode(self.id)  # python 2
+        except NameError:
+            return str(self.id)  # python 3
+
+    def __repr__(self):
+        return '<User %r>' % (self.nickname)
